@@ -44,7 +44,7 @@ class _MyRiveAnimationState extends State<MyRiveAnimation> {
                       return Markdown(data: snapshot.data!);
                     }
 
-                    return Center();
+                    return Container();
                   }),
             ),
           ),
