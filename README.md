@@ -1,4 +1,2 @@
-## links
-- 🙂😅❤️
-- www.dn.se
--	[dn](https://www.dn.se)
+## Info
+Här kan man visa saker 😎

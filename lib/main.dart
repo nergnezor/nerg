@@ -14,31 +14,63 @@ void main() => runApp(MaterialApp(
       home: MyRiveAnimation(),
     ));
 
-class MyRiveAnimation extends StatelessWidget {
+class MyRiveAnimation extends StatefulWidget {
+  MyRiveAnimation({super.key});
+
+  @override
+  State<MyRiveAnimation> createState() => _MyRiveAnimationState();
+}
+
+class _MyRiveAnimationState extends State<MyRiveAnimation> {
+  bool showText = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(children: [
-        FutureBuilder(
-            future: rootBundle.loadString("README.md"),
-            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-              if (snapshot.hasData) {
-                return Markdown(data: snapshot.data!);
-              }
+        if (showText)
+          Align(
+            alignment: Alignment.topCenter,
+            // Set the child's width to a third of the screen width
 
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }),
+            child: FractionallySizedBox(
+              widthFactor: 0.2,
+              heightFactor: 0.2,
+              child: FutureBuilder(
+                  future: rootBundle.loadString("README.md"),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    if (snapshot.hasData) {
+                      return Markdown(data: snapshot.data!);
+                    }
+
+                    return Center();
+                  }),
+            ),
+          ),
         Center(
           child: RiveAnimation.asset(
             'nerg.riv',
             stateMachines: ['State Machine 1'],
             artboard: "alla",
             fit: BoxFit.cover,
+            onInit: _onRiveInit,
           ),
         )
       ]),
     );
+  }
+
+  void _onRiveInit(Artboard artboard) {
+    final controller =
+        StateMachineController.fromArtboard(artboard, 'State Machine 1',
+            onStateChange: (stateMachineName, stateName) => setState(() {
+                  print(stateName);
+                  if (stateName == 'ExitState') {
+                    return;
+                  }
+                  if (stateName == 'fly') showText = !showText;
+                }));
+    artboard.addController(controller!);
   }
 }
