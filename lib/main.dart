@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:rive/rive.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 void main() => runApp(MaterialApp(
       theme: ThemeData(
@@ -23,6 +24,17 @@ class MyRiveAnimation extends StatefulWidget {
 
 class _MyRiveAnimationState extends State<MyRiveAnimation> {
   bool showText = false;
+
+  late final WebViewController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..loadRequest(Uri.parse(
+          "https://open.spotify.com/embed/album/3486IwLwd8v9NoZiLzqA2f?utm_source=generator"));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +68,15 @@ class _MyRiveAnimationState extends State<MyRiveAnimation> {
             fit: BoxFit.cover,
             onInit: _onRiveInit,
           ),
-        )
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: SizedBox(
+            height: 352,
+            width: double.infinity,
+            child: WebViewWidget(controller: _controller),
+          ),
+        ),
       ]),
     );
   }
