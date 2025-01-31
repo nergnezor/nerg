@@ -40,6 +40,14 @@ class _MyRiveAnimationState extends State<MyRiveAnimation> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(children: [
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: SizedBox(
+            height: 352,
+            width: double.infinity,
+            child: WebViewWidget(controller: _controller),
+          ),
+        ),
         if (showText)
           Align(
             alignment: Alignment.topCenter,
@@ -67,14 +75,6 @@ class _MyRiveAnimationState extends State<MyRiveAnimation> {
             artboard: "alla",
             fit: BoxFit.cover,
             onInit: _onRiveInit,
-          ),
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: SizedBox(
-            height: 352,
-            width: double.infinity,
-            child: WebViewWidget(controller: _controller),
           ),
         ),
       ]),
