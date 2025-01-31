@@ -7,3 +7,5 @@ nerg.iml
 .flutter-plugins*
 .metadata
 analysis_options.yaml
+homepage.iml
+.vscode
