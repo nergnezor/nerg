@@ -31,7 +31,7 @@ class _MyRiveAnimationState extends State<MyRiveAnimation> {
   void initState() {
     super.initState();
     _controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      // ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..loadRequest(Uri.parse(
           "https://open.spotify.com/embed/album/3486IwLwd8v9NoZiLzqA2f?utm_source=generator"));
   }

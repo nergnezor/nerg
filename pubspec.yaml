@@ -12,6 +12,7 @@ dependencies:
   flutter_markdown: ^0.7.6
   rive: ^0.13.20
   webview_flutter: ^4.10.0
+  webview_flutter_web: ^0.2.3+4
   # flame_rive: ^1.6.0
   # flame_forge2d: ^0.12.5
 dev_dependencies:
