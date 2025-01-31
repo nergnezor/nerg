@@ -44,7 +44,7 @@ class _MyRiveAnimationState extends State<MyRiveAnimation> {
           alignment: Alignment.bottomCenter,
           child: SizedBox(
             height: 352,
-            width: double.infinity,
+            width: 352,
             child: WebViewWidget(controller: _controller),
           ),
         ),
