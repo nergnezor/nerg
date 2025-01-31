@@ -2,13 +2,13 @@
 
 name: CI
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -17,39 +17,39 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: subosito/flutter-action@v2.8.0
-      with:
-        channel: stable
-    - run: flutter config --enable-web
-    - run: flutter pub get
-#     - run: flutter test
-    - run: flutter build web
-    - name: Deploy to GitHub Pages
-      uses: crazy-max/ghaction-github-pages@v2
-      with:
-        target_branch: gh-pages
-        build_dir: build/web
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
-    - run: flutter create --platforms=android .
-    - uses: actions/setup-java@v1
-      with:
-        java-version: '12.x'
-    - run: flutter build apk
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v2.8.0
+        with:
+          channel: stable
+      - run: flutter config --enable-web
+      - run: flutter pub get
+      #     - run: flutter test
+      - run: flutter build web
+      - name: Deploy to GitHub Pages
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          target_branch: gh-pages
+          build_dir: build/web
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    # - name: Run Fastlane
-    #   uses: maierj/fastlane-action@master
-    #   with:
-    #     lane: closed_beta
-    #     subdirectory: android
+      - run: flutter create --platforms=android .
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+      - run: flutter build apk
 
-    - uses: actions/upload-artifact@v2
-      with:
-        name: apk
-        path: build/app/outputs/flutter-apk/app-release.apk
-        
+      # - name: Run Fastlane
+      #   uses: maierj/fastlane-action@master
+      #   with:
+      #     lane: closed_beta
+      #     subdirectory: android
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
   release:
     name: Release APK
     needs: build
@@ -59,15 +59,15 @@ jobs:
       - name: Download APK from build
         uses: actions/download-artifact@v1
         with:
-          name: apk  
+          name: apk
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.run_number }}
-          release_name: Release ${{ github.run_number}} 
+          release_name: Release ${{ github.run_number}}
       - name: Upload Release APK
         id: upload_release_asset
         uses: actions/upload-release-asset@v1.0.1
@@ -83,5 +83,5 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         uses: Ilshidur/action-slack@2.0.2
         with:
-          args: 'https://github.com/nergnezor/flingjammer/releases/download/${{ github.run_number }}/Fling.apk @channel' # Optional
+          args: "https://github.com/nergnezor/flingjammer/releases/download/${{ github.run_number }}/Fling.apk @channel" # Optional
 
